@@ -50,6 +50,7 @@ public class Main {
         }
 
         int[] dp = new int[points+1];
+        boolean[] visited = new boolean[points+1];
         for (int i = 0; i <= points; i++) {
             dp[i] = Integer.MAX_VALUE;
         }
@@ -58,15 +59,18 @@ public class Main {
 
         pq.offer(new Node(start, 0));
         dp[start] = 0;
+        visited[start] = true;
 
         while(!pq.isEmpty()) {
             Node curr = pq.poll();
             ArrayList<Node> curr_point = graph.get(curr.end);
 
             for (Node node : curr_point) {
-                if (dp[node.end] > node.weight + curr.weight) {
-                    dp[node.end] = node.weight + curr.weight;
-                    pq.offer(new Node(node.end, dp[node.end]));
+                if (!visited[node.end]) {
+                    if (dp[node.end] > node.weight + curr.weight) {
+                        dp[node.end] = node.weight + curr.weight;
+                        pq.offer(new Node(node.end, dp[node.end]));
+                    }
                 }
             }
         }

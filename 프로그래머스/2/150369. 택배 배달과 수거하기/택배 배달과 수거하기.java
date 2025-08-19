@@ -3,18 +3,12 @@ class Solution {
         long answer = 0;
         int total_d = 0;
         int total_p = 0;
-        int most_far_d = 0;
-        int most_far_p = 0;
+        int most_far_d = n;
+        int most_far_p = n;
         
         for (int i = 0; i < n; i++) {
             total_d += deliveries[i];
-            total_p += pickups[i];
-            if (deliveries[i] != 0) {
-                most_far_d = i+1;
-            }
-            if (pickups[i] != 0) {
-                most_far_p = i+1;
-            }
+            total_p += deliveries[i];
         }
         
         while (total_d > 0 || total_p > 0) {

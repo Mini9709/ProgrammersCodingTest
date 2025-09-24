@@ -81,12 +81,12 @@ public class Main {
 			visited[curr_node.end] = true;
 
 			for (Node o : curr_village) {
-				if (!visited[o.end] && o.start == curr_node.end) {
+
 					if (dp_come[o.end] > dp_come[curr_node.end] + o.time) {
 						dp_come[o.end] = dp_come[curr_node.end] + o.time;
 						pq.offer(new Node(o.start, o.end, dp_come[o.end]));
 					}
-				}
+
 			}
 		}
 

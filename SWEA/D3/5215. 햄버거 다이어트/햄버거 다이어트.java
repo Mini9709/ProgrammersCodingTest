@@ -25,19 +25,24 @@ public class Solution {
                 arr[i][1] = Integer.parseInt(st.nextToken());
             }
 
-            int[][] dp = new int[n+1][l+1];
+            int answer = 0;
 
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= l; j++) {
-                    if (arr[i-1][1] <= j) {
-                        dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-arr[i-1][1]] + arr[i-1][0]);
-                    } else {
-                        dp[i][j] = dp[i-1][j];
+            for (int i = 0; i < 1 << n; i++) {
+                int sumKcal = 0;
+                int sumValue = 0;
+                for (int j = 0; j < n; j++) {
+                    if ((i & 1 << j) > 0) {
+                        sumValue += arr[j][0];
+                        sumKcal += arr[j][1];
                     }
+                }
+
+                if (sumKcal <= l) {
+                    answer = Math.max(answer, sumValue);
                 }
             }
 
-            System.out.printf("#%d %d\n", t, dp[n][l]);
+            System.out.println("#" + t + " " + answer);
         }
     }
 }

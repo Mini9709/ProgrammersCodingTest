@@ -10,13 +10,13 @@ public class Main {
 	static int n;
 	static int m;
 	static int chickens;
-	static int homes;
 	static int answer;
 	static int[][] map;
 	static int[][] chicken;
-	static int[][] home;
+
 	static int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+	// 해당 부분집합이 가지는 원소의 수를 반환하는 메서드
 	public static int countBit(int b) {
 		int count = 0;
 		
@@ -38,9 +38,9 @@ public class Main {
         m = Integer.parseInt(st.nextToken());
         map = new int[n][n];
         chicken = new int[14][2]; // 치킨집의 좌표를 담는 배열
-        home = new int[n*2+1][2]; // 집의 좌표를 담는 배열
+
         chickens = 0; // 치킨집의 개수
-        homes = 0; // 집의 개수
+
         
         for (int i = 0; i < n; i++) {
         	st = new StringTokenizer(br.readLine());
@@ -50,20 +50,17 @@ public class Main {
         			chicken[++chickens][0] = j;
         			chicken[chickens][1] = i;
         		}
-        		if (map[i][j] == 1) {
-        			home[++homes][0] = j;
-        			home[homes][1] = i;
-        		}
         	}
         }
         
         answer = Integer.MAX_VALUE;
+        Queue<int[]> q = new ArrayDeque<>();
         
         for (int i = 1; i < 1 << chickens; i++) {
         	if (countBit(i) == m) {
-        		Queue<int[]> q = new ArrayDeque<>();
         		int[][] route = new int[n][n];
         		
+        		// bfs 전 시작위치들 초기화
         		for (int j = 1; j <= chickens; j++) {
         			if ((i & 1 << j-1) > 0) {
         				q.add(chicken[j]);
@@ -71,8 +68,9 @@ public class Main {
         			}
         		}
         		
+        		int sum = 0;
         		
-        		
+        		// bfs 진행
         		while (!q.isEmpty()) {
         			int[] curr = q.poll();
         			int x = curr[0];
@@ -86,14 +84,13 @@ public class Main {
         					if (route[ny][nx] == 0) {
         						route[ny][nx] = route[y][x] + 1;
         						q.add(new int[] {nx, ny});
+        						
+        						if (map[ny][nx] == 1) {
+                					sum += route[ny][nx]-1;
+                				}
         					}
         				}
         			}
-        		}
-        		
-        		int sum = 0;
-        		for (int j = 1; j <= homes; j++) {
-        			sum += route[home[j][1]][home[j][0]]-1;
         		}
         		
         		answer = Math.min(answer, sum);

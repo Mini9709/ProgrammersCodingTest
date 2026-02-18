@@ -47,9 +47,11 @@ public class Solution {
             }
 
             Queue<Node> q = new ArrayDeque<>();
-            Set<Node> visited = new HashSet<>();
+            boolean[] visited = new boolean[n+1];
+            int answer = 0;
+
             q.add(nodes[1]);
-            visited.add(nodes[1]);
+            visited[1] = true;
 
             for (int i = 0; i < 2; i++) {
                 int size = q.size();
@@ -58,13 +60,16 @@ public class Solution {
                     Node curr = q.poll();
 
                     for (Node friend : curr.friends) {
-                        visited.add(friend);
-                        q.add(friend);
+                        if (!visited[friend.data]) {
+                            visited[friend.data] = true;
+                            q.add(friend);
+                            answer++;
+                        }
                     }
                 }
             }
 
-            System.out.println("#"+ t + " " + (visited.size()-1));
+            System.out.println("#"+ t + " " + answer);
         }
     }
 }

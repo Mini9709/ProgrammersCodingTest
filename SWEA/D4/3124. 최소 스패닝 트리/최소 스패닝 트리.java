@@ -1,35 +1,32 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
+
+class Edge implements Comparable<Edge> {
+	
+	int next;
+	int cost;
+	
+	public Edge(int next, int cost) {
+		this.next = next;
+		this.cost = cost;
+	}
+
+	@Override
+	public int compareTo(Edge o) {
+		return this.cost - o.cost;
+	}
+}
 
 public class Solution {
 
 	static int v;
 	static int e;
 	static long answer;
-	static int[] parent;
-	
-	public static int find(int x) {
-		if (parent[x] == x) return x;
-		else return parent[x] = find(parent[x]);
-	}
-	
-	public static void union(int x, int y) {
-		x = find(x);
-		y = find(y);
-		
-		if (x <= y) parent[y] = x;
-		else parent[x] = y;
-	}
-	
-	public static void kruscal(int x, int y, int cost) {
-		if (find(x) != find(y)) {
-			answer += cost;
-			union(x, y);
-		}
-	}
+	static boolean[] visited;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,14 +40,15 @@ public class Solution {
 			v = Integer.parseInt(st.nextToken());
 			e = Integer.parseInt(st.nextToken());
 			
-			parent = new int[v+1];
+			
+			visited = new boolean[v+1];
+			ArrayList<Edge>[] edges = new ArrayList[v+1];
 			
 			for (int i = 0; i <= v; i++) {
-				parent[i] = i;
+				edges[i] = new ArrayList<>();
 			}
 			
-			PriorityQueue<int[]> lines = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
-			answer = 0;
+			PriorityQueue<Edge> lines = new PriorityQueue<>();
 			
 			for (int i = 0; i < e; i++) {
 				st = new StringTokenizer(br.readLine());
@@ -58,12 +56,30 @@ public class Solution {
 				int y = Integer.parseInt(st.nextToken());
 				int cost = Integer.parseInt(st.nextToken());
 				
-				lines.add(new int[] {x, y, cost});
+				edges[x].add(new Edge(y, cost));
+				edges[y].add(new Edge(x, cost));
 			}
 			
-			for (int i = 0; i < e; i++) {
-				int[] curr = lines.poll();
-				kruscal(curr[0], curr[1], curr[2]);
+			answer = 0;
+			visited[1] = true;
+			
+			for (int i = 0; i < edges[1].size(); i++) {
+				lines.add(edges[1].get(i));
+			}
+			
+			while (!lines.isEmpty()) {
+				Edge curr = lines.poll();
+				
+				int next = curr.next;
+				int cost = curr.cost;
+				
+				if (!visited[next]) {
+					answer += cost;
+					visited[next] = true;
+					for (int i = 0; i < edges[next].size(); i++) {
+						lines.add(edges[next].get(i));
+					}
+				}
 			}
 			
 			System.out.println("#" + t + " " + answer);

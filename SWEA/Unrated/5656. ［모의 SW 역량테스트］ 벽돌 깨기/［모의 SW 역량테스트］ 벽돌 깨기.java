@@ -45,6 +45,9 @@ public class Solution {
 		}
 		
 		for (int i = 0; i < w; i++) {
+            if (answer == 0) {
+				return;
+			}
 			seq[c] = i;
 			play(c+1, seq);
 		}

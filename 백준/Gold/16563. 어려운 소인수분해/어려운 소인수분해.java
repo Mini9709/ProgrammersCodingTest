@@ -26,7 +26,7 @@ public class Main {
 		}
 		
 		res = new int[maxNum+1];
-		
+				
 		for (int num = 2; num <= maxNum; num++) {
 			if (res[num] == 0) {
 				res[num] = num;
@@ -41,18 +41,19 @@ public class Main {
 			}
 		}
 		
-		
+		StringBuilder sb = new StringBuilder();
 		for (int a : nums) {
 			int num = a;
-			StringBuilder sb = new StringBuilder();
 			
 			while (num > 1) {
 				sb.append(res[num] + " ");
 				num /= res[num];
 			}
 			
-			System.out.println(sb);
+			sb.append('\n');
 		}
+		
+		System.out.println(sb);
 	}
 
 }

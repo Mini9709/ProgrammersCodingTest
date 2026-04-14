@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 public class Solution {
 
 	static int n;
-	static int[][] edges;
 	static int[][] distances;
 	static int answer;
 	
@@ -23,7 +22,6 @@ public class Solution {
 			st = new StringTokenizer(br.readLine());
 			
 			n = Integer.parseInt(st.nextToken());
-			edges = new int[n][n];
 			distances = new int[n][n];
 			
 			for (int i = 0; i < n; i++) {
@@ -33,9 +31,9 @@ public class Solution {
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					edges[i][j] = Integer.parseInt(st.nextToken());
+					int edges = Integer.parseInt(st.nextToken());
 					
-					if (edges[i][j] == 1) {
+					if (edges == 1) {
 						distances[i][j] = 1;
 					}
 				}

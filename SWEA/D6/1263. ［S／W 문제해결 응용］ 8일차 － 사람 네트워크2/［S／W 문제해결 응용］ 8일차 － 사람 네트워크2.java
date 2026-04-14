@@ -67,7 +67,9 @@ public class Solution {
 				answer = Math.min(answer, temp);
 			}
 			
-			System.out.println("#" + t + " " + answer);
+			StringBuilder sb = new StringBuilder();
+			sb.append("#").append(t).append(" ").append(answer);
+			System.out.println(sb);
 		}
 
 	}

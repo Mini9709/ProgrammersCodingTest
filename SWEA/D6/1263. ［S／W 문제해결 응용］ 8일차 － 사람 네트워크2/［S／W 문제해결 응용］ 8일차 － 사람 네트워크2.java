@@ -44,10 +44,9 @@ public class Solution {
 			
 			for (int x = 0; x < n; x++) {
 				for (int i = 0; i < n; i++) {
+					if (i == x || distances[i][x] == Integer.MAX_VALUE) continue;
 					for (int j = 0; j < n; j++) {
-						if (i == x || j == x || i == j) continue;
-						
-						if (distances[i][x] == Integer.MAX_VALUE || distances[x][j] == Integer.MAX_VALUE) continue;
+						if (j == x || i == j || distances[x][j] == Integer.MAX_VALUE) continue;
 						
 						distances[i][j] = Math.min(distances[i][j], distances[i][x] + distances[x][j]);
 					}

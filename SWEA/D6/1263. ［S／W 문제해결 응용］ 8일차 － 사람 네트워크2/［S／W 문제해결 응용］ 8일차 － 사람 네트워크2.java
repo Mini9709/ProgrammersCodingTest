@@ -25,16 +25,11 @@ public class Solution {
 			distances = new int[n][n];
 			
 			for (int i = 0; i < n; i++) {
-				Arrays.fill(distances[i], Integer.MAX_VALUE);
-				distances[i][i] = 0;
-			}
-			
-			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					int edges = Integer.parseInt(st.nextToken());
+					distances[i][j] = Integer.parseInt(st.nextToken());
 					
-					if (edges == 1) {
-						distances[i][j] = 1;
+					if (i != j && distances[i][j] == 0) {
+						distances[i][j] = Integer.MAX_VALUE;
 					}
 				}
 			}
